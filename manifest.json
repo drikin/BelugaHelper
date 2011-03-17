@@ -1,6 +1,6 @@
 {
   "name": "Beluga Helper",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Tiny helper extension for Beluga",
   "icons": {
       "48": "Beluga48.png",
@@ -14,6 +14,7 @@
   }
   ],
   "permissions": [
+    "notifications",
     "http://belugapods.com/*"
   ],
   "homepage_url": "https://github.com/drikin/BelugaHelper"
