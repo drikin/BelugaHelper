@@ -1,17 +1,20 @@
-function submit() {
+function submit(event) {
+    removeAllNotifications();
+    _last_update_id++;
+
     var ct = document.getElementById('composetext');
-    if (!(event.ctrlKey || event.metaKey || event.altKey || event.shiftKey)) {
-        if (ct.value.replace(/\n/g, '') !== '') {
-            var cf = document.getElementById('composeform');
-            cf.submit();
-            ct.value = '';
-        }
+    if (ct.value.replace(/\n/g, '') !== '') {
+        var cf = document.getElementById('composeform');
+        cf.submit();
+        ct.value = '';
     }
 }
 
 function keydown(event) {
 	if (event.keyIdentifier === "Enter") {
-        submit();
+        if (!(event.ctrlKey || event.metaKey || event.altKey || event.shiftKey)) {
+            submit(event);
+        }
     }
 }
 
@@ -35,10 +38,30 @@ function update(event) {
                 name,
                 status);
             notification.ondisplay = function(event) {
-                setTimeout(function(){event.target.cancel();}, 4000);
+                _notifications.push(event.target);
+                setTimeout(function(){
+                    removeNotification(event.target);
+                }, 4000);
             }
             notification.show();
         } catch (e) {
+        }
+    }
+}
+
+function removeAllNotifications() {
+    for (i = 0, n = _notifications.length; i < n; i++) {
+        _notifications[i].cancel();
+    }
+    _notifications.length = 0;
+}
+
+function removeNotification(notification) {
+    for (var i = 0, n = _notifications.length; i < n; i++) {
+        if (_notifications[i] === notification) {
+            _notifications[i].cancel();
+            _notifications.splice(i, 1);
+            break;
         }
     }
 }
@@ -56,8 +79,11 @@ function getLastUpdateId() {
 var _title = document.title;
 var _last_update_id = getLastUpdateId();
 var _unread_count = 0;
+var _notifications = [];
+
 
 // attach events
 document.addEventListener("keydown", keydown, false);
 document.addEventListener("DOMNodeInserted", update, false);
+document.getElementById('composebutton').addEventListener("click", submit, false);
 
