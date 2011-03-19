@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Beluga Helper</title>
+
 <style>/* {{{ */
 html, body{
   border: 0;
@@ -55,23 +56,30 @@ li {
   margin-left: 20px;
 }
 /* }}} */</style>
+
 <script type="text/javascript">// {{{
-function init() {
-  // FIXME non-checkbox settings doesn't work.
-  var items = document.getElementsByTagName("input");
-  for(var i=0; i<items.length; i++) {
-    var item = items[i];
-    var key = item.getAttribute("id");
-    item.checked = !!localStorage[key];
-    item.addEventListener("click", function() {
-      if(item.checked) {
-        localStorage[key] = 1;
-      } else {
-        delete localStorage[key];
-      }
-    });
+(function() {
+  var background = chrome.extension.getBackgroundPage();
+  var localStorage = background.localStorage;
+
+  window.init = function() {
+    var items = document.getElementsByTagName("input");
+    for(var i=0; i<items.length; i++) {
+      var item = items[i];
+      var key = item.getAttribute("id");
+
+      item.checked = !!localStorage.getItem(key);
+      item.addEventListener("click", function() {
+        var value = item.checked;
+        if(value) {
+          localStorage.setItem(key, 1);
+        } else {
+          localStorage.removeItem(key);
+        }
+      });
+    }
   }
-}
+})();
 // }}}</script>
 </head>
 
