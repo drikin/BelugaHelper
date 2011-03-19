@@ -1,11 +1,12 @@
 {
   "name": "Beluga Helper",
-  "version": "0.2",
+  "version": "0.3",
   "description": "Tiny helper extension for Beluga",
   "icons": {
       "48": "Beluga48.png",
       "128": "Beluga128.png"
   },
+  "background_page": "background.html",
   "content_scripts": [
   {
       "matches": ["http://belugapods.com/*"],

@@ -1,5 +1,4 @@
 function submit(event) {
-    removeAllNotifications();
     _last_update_id++;
 
     var ct = document.getElementById('composetext');
@@ -32,38 +31,12 @@ function update(event) {
         var img_url = lu.getElementsByClassName("userimg")[0].src;
         var name = lu.getElementsByClassName("uname")[0].textContent;
         var status = lu.getElementsByClassName("ustatus")[0].textContent;
-        try {
-            var notification = webkitNotifications.createNotification(
-                img_url,
-                name,
-                status);
-            notification.ondisplay = function(event) {
-                _notifications.push(event.target);
-                setTimeout(function(){
-                    removeNotification(event.target);
-                }, 4000);
-            }
-            notification.show();
-        } catch (e) {
-        }
-    }
+        showNotification({"image_url": img_url, "name": name, "status": status});
+   }
 }
 
-function removeAllNotifications() {
-    for (i = 0, n = _notifications.length; i < n; i++) {
-        _notifications[i].cancel();
-    }
-    _notifications.length = 0;
-}
-
-function removeNotification(notification) {
-    for (var i = 0, n = _notifications.length; i < n; i++) {
-        if (_notifications[i] === notification) {
-            _notifications[i].cancel();
-            _notifications.splice(i, 1);
-            break;
-        }
-    }
+function showNotification(msg) {
+    chrome.extension.sendRequest(msg);
 }
 
 function getLastUpdateElement() {
@@ -79,7 +52,6 @@ function getLastUpdateId() {
 var _title = document.title;
 var _last_update_id = getLastUpdateId();
 var _unread_count = 0;
-var _notifications = [];
 
 
 // attach events

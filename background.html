@@ -1,0 +1,18 @@
+<html>
+    <script>
+        chrome.extension.onRequest.addListener(function(data, sender, sendResponse) {
+            var notification = webkitNotifications.createNotification(
+            data.image_url,
+            data.name,
+            data.status);
+            notification.ondisplay = function(event) {
+                setTimeout(function(){
+                    event.target.cancel();
+                }, 4000);
+            }
+            notification.show();
+
+            sendResponse();
+        });
+    </script>
+</html>
