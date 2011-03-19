@@ -18,6 +18,6 @@
     "notifications",
     "http://belugapods.com/*"
   ],
-  "homepage_url": "https://github.com/drikin/BelugaHelper"
+  "homepage_url": "https://github.com/drikin/BelugaHelper",
+  "options_page": "settings.html"
 }
-
