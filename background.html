@@ -17,7 +17,7 @@
 			},
 			settings: function(request, sender, sendResponse) {
 				var key = request["key"];
-				sendResponse(localStorage[key]);
+				sendResponse(localStorage.getItem(key));
 			}
 		};
 
