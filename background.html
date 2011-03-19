@@ -1,8 +1,7 @@
 <html>
     <script>
-        chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-			switch(request["action"]) {
-			case "notification":
+		var requestProxy = {
+			notification: function(request, sender, sendResponse) {
 				var data = request["data"];
 				var notification = webkitNotifications.createNotification(
 					data.image_url,
@@ -15,13 +14,19 @@
 				}
 				notification.show();
             	sendResponse();
-				break;
-			case "settings":
+			},
+			settings: function(request, sender, sendResponse) {
 				var key = request["key"];
 				sendResponse(localStorage[key]);
-				break;
 			}
-        });
+		};
+
+        chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+			var listener = requestProxy[request["action"]];
+			if(listener) {
+				listener.call(this, request, sender, sendResponse);
+			}
+		});
     </script>
 </html>
 <!-- vim:set ts=4:sw=4:expandtab -->
