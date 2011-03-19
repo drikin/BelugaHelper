@@ -1,4 +1,10 @@
 (function() {
+	// reset document title
+    function focus() {
+        document.title = base_title;
+        unread_count = 0;
+    }
+
     function submit(event) {
         last_update_id++;
 
@@ -55,6 +61,7 @@
     var unread_count = 0;
 
     // attach events
+    window.addEventListener("focus", focus, false);
     document.addEventListener("keydown", keydown, false);
     document.addEventListener("DOMNodeInserted", update, false);
     document.getElementById("composebutton").addEventListener("click", submit, false);
