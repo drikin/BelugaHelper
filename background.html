@@ -1,32 +1,32 @@
 <html>
     <script>
-		var requestProxy = {
-			notification: function(request, sender, sendResponse) {
-				var data = request["data"];
-				var notification = webkitNotifications.createNotification(
-					data.image_url,
-					data.name,
-					data.status);
-				notification.ondisplay = function(event) {
-					setTimeout(function(){
-						event.target.cancel();
-					}, 4000);
-				}
-				notification.show();
-            	sendResponse();
-			},
-			settings: function(request, sender, sendResponse) {
-				var key = request["key"];
-				sendResponse(localStorage.getItem(key));
-			}
-		};
+        var requestProxy = {
+            notification: function(request, sender, sendResponse) {
+                var data = request["data"];
+                var notification = webkitNotifications.createNotification(
+                    data.image_url,
+                    data.name,
+                    data.status);
+                notification.ondisplay = function(event) {
+                    setTimeout(function(){
+                        event.target.cancel();
+                    }, 4000);
+                }
+                notification.show();
+                sendResponse();
+            },
+            settings: function(request, sender, sendResponse) {
+                var key = request["key"];
+                sendResponse(localStorage.getItem(key));
+            }
+        };
 
         chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-			var listener = requestProxy[request["action"]];
-			if(listener) {
-				listener.call(this, request, sender, sendResponse);
-			}
-		});
+            var listener = requestProxy[request["action"]];
+            if(listener) {
+                listener.call(this, request, sender, sendResponse);
+            }
+        });
     </script>
 </html>
-<!-- vim:set ts=4:sw=4:expandtab -->
+<!-- vim:set ts=4 sw=4 expandtab: -->
