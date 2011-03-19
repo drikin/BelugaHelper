@@ -2,11 +2,11 @@
 	function submit(event) {
 		last_update_id++;
 
-		var ct = document.getElementById('composetext');
-		if (ct.value.replace(/\n/g, '') !== '') {
-			var cf = document.getElementById('composeform');
+		var ct = document.getElementById("composetext");
+		if (ct.value.replace(/\n/g, "") !== "") {
+			var cf = document.getElementById("composeform");
 			cf.submit();
-			ct.value = '';
+			ct.value = "";
 		}
 	}
 
@@ -57,5 +57,5 @@
 	// attach events
 	document.addEventListener("keydown", keydown, false);
 	document.addEventListener("DOMNodeInserted", update, false);
-	document.getElementById('composebutton').addEventListener("click", submit, false);
+	document.getElementById("composebutton").addEventListener("click", submit, false);
 })();
