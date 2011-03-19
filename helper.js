@@ -73,4 +73,4 @@
     document.addEventListener("DOMNodeInserted", update, false);
     document.getElementById("composebutton").addEventListener("click", submit, false);
 })();
-// vim:ts=4:sw=4:expandtab
+// vim:set ts=4 sw=4 expandtab:
