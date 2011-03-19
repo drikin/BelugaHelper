@@ -1,18 +1,27 @@
 <html>
     <script>
-        chrome.extension.onRequest.addListener(function(data, sender, sendResponse) {
-            var notification = webkitNotifications.createNotification(
-            data.image_url,
-            data.name,
-            data.status);
-            notification.ondisplay = function(event) {
-                setTimeout(function(){
-                    event.target.cancel();
-                }, 4000);
-            }
-            notification.show();
-
-            sendResponse();
+        chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+			switch(request["action"]) {
+			case "notification":
+				var data = request["data"];
+				var notification = webkitNotifications.createNotification(
+					data.image_url,
+					data.name,
+					data.status);
+				notification.ondisplay = function(event) {
+					setTimeout(function(){
+						event.target.cancel();
+					}, 4000);
+				}
+				notification.show();
+            	sendResponse();
+				break;
+			case "settings":
+				var key = request["key"];
+				sendResponse(localStorage[key]);
+				break;
+			}
         });
     </script>
 </html>
+<!-- vim:set ts=4:sw=4:expandtab -->

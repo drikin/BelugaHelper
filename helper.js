@@ -10,9 +10,16 @@
         }
     }
 
+    // FIXME dirty.
+    var useShiftEnterToPost = false;
+    chrome.extension.sendRequest({action: "settings", key: "useShiftEnterToPost"}, function(value) {
+        useShiftEnterToPost = !!value;
+    });
+
     function keydown(event) {
         if (event.keyIdentifier === "Enter") {
-            if (!(event.ctrlKey || event.metaKey || event.altKey || event.shiftKey)) {
+            var withModifierKey = event.ctrlKey || event.metaKey || event.altKey || event.shiftKey;
+            if (useShiftEnterToPost && withModifierKey || !useShiftEnterToPost && !withModifierKey) {
                 submit(event);
             }
         }
@@ -37,7 +44,7 @@
     }
 
     function showNotification(msg) {
-        chrome.extension.sendRequest(msg);
+        chrome.extension.sendRequest({action: "notification", data: msg});
     }
 
     function getLastUpdateElement() {
