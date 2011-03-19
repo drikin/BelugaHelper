@@ -1,6 +1,6 @@
 (function() {
 	function submit(event) {
-		_last_update_id++;
+		last_update_id++;
 
 		var ct = document.getElementById('composetext');
 		if (ct.value.replace(/\n/g, '') !== '') {
@@ -20,12 +20,12 @@
 
 	function update(event) {
 		var id = getLastUpdateId();
-		if (id > _last_update_id) {
-			_last_update_id = id;
+		if (id > last_update_id) {
+			last_update_id = id;
 
 			// update window title
-			_unread_count++;
-			document.title = "(" + _unread_count + ") " + _title;
+			unread_count++;
+			document.title = "(" + unread_count + ") " + title;
 
 			// show notification
 			var lu = getLastUpdateElement();
@@ -50,9 +50,9 @@
 		return lu.id;
 	}
 
-	var _title = document.title;
-	var _last_update_id = getLastUpdateId();
-	var _unread_count = 0;
+	var title = document.title;
+	var last_update_id = getLastUpdateId();
+	var unread_count = 0;
 
 	// attach events
 	document.addEventListener("keydown", keydown, false);
