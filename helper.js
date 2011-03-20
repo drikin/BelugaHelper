@@ -1,4 +1,21 @@
 (function() {
+    // Settings
+    var settings = {};
+
+    function initSettings() {
+        chrome.extension.sendRequest({action: "initSettings"}, function(value) {
+            settings = value;
+        });
+        chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+            if(request["action"] === "updateSetting") {
+                settings[request["key"]] = request["value"];
+            }
+            sendResponse();
+        });
+    }
+
+    initSettings();
+
 	// Event handlers
     function focus() {
         resetCount();
@@ -63,17 +80,10 @@
         return lu.id;
     }
 
-    function getSettings() {
-        chrome.extension.sendRequest({action: "getSettings"}, function(value) {
-            settings = value;
-        });
-    }
 
     var base_title = document.title;
     var last_update_id = getLastUpdateId();
     var unread_count = 0;
-    var settings = {};
-    getSettings();
 
     // Attach events
     window.addEventListener("focus", focus, false);
