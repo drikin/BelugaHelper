@@ -4,16 +4,17 @@
         chrome.browserAction.onClicked.addListener(function(tab) {
             chrome.tabs.getAllInWindow(null, function(tabs) {
                 var isOpened = false;
+                var target_url = "http://belugapods.com/pods";
                 for (var i = 0, n = tabs.length; i < n; i++) {
                     var tab = tabs[i];
-                    if (tab.url === "http://belugapods.com/pods") {
-                        chrome.tabs.update(tab.id, {selected: true});
+                    if (tab.url === target_url) {
+                        chrome.tabs.update(tab.id, {url: target_url, selected: true});
                         isOpened = true;
                         break;
                     }
                 }
                 if (!isOpened) {
-                    chrome.tabs.create({url: "http://belugapods.com/pods", selected: true});
+                    chrome.tabs.create({url: target_url, selected: true});
                 }
             });
         });
