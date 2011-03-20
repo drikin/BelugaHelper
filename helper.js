@@ -67,7 +67,8 @@
     }
 
     function showNotification(msg) {
-        chrome.extension.sendRequest({action: "notification", data: msg});
+        msg.type = "notification";
+        chrome.extension.sendRequest(msg);
     }
 
     function getLastUpdateElement() {
