@@ -57,7 +57,8 @@
 
         // Default Settings Object
         window.settings = new Settings({
-            useShiftEnterToPost: false
+            useShiftEnterToPost: false,
+            disableDesktopNotification: false
         });
 
         // Click from Browser Action Icon
@@ -82,16 +83,18 @@
         // Request from Content Script
         chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
             if (request.type === "notification") {
-                var notification = webkitNotifications.createNotification(
-                    request.image_url,
-                    request.name,
-                    request.status);
-                notification.ondisplay = function(event) {
-                    setTimeout(function(){
-                        event.target.cancel();
-                    }, 4000);
+                if (! settings.get("disableDesktopNotification")) {
+                    var notification = webkitNotifications.createNotification(
+                        request.image_url,
+                        request.name,
+                        request.status);
+                    notification.ondisplay = function(event) {
+                        setTimeout(function(){
+                            event.target.cancel();
+                        }, 4000);
+                    }
+                    notification.show();
                 }
-                notification.show();
             }
             sendResponse();
         });

@@ -50,6 +50,9 @@ li {
   font-weight: 200;
   font-size: 20px;
 }
+#settings li {
+  margin: 0 0 10px 0;
+}
 #settings .description {
   font-size: 10px;
   color: #666;
@@ -86,8 +89,12 @@ li {
   <ul id="settings">
     <li>
       <input type="checkbox" id="useShiftEnterToPost" />
-      <label for="useShiftEnterToPost">Use Shift+Enter to post.</label><br />
+      <label for="useShiftEnterToPost">Use Shift+Enter to post</label><br />
       <div class="description">By default, Enter to post, Shift+Enter to new line.</div>
+    </li>
+    <li>
+      <input type="checkbox" id="disableDesktopNotification" />
+      <label for="disableDesktopNotification">Disable desktop notification</label><br />
     </li>
   </ul>
 </div>
