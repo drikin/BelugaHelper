@@ -13,7 +13,7 @@
   "background_page": "background.html",
   "content_scripts": [
   {
-      "matches": ["http://belugapods.com/*"],
+      "matches": ["http://belugapods.com/pod/*"],
       "js": ["helper.js"],
       "run_at": "document_end"
   }

@@ -81,7 +81,6 @@
         return lu.id;
     }
 
-
     var base_title = document.title;
     var last_update_id = getLastUpdateId();
     var unread_count = 0;
