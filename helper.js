@@ -71,6 +71,7 @@
     var unread_count = 0;
 
     // Attach events
+    window.addEventListener("focus", focus, false);
     document.addEventListener("keydown", keydown, false);
     document.addEventListener("DOMNodeInserted", update, false);
     document.getElementById("composebutton").addEventListener("click", submit, false);
