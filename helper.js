@@ -4,11 +4,16 @@
         resetCount();
     }
 
+    function click() {
+        last_update_id++;
+    }
+
     function keydown(event) {
         if (event.keyIdentifier === "Enter") {
             if (!(event.ctrlKey || event.metaKey || event.altKey || event.shiftKey)) {
                 var cb = document.getElementById("composebutton");
                 cb.click();
+                last_update_id++;
                 // workaround. make sure for clearing
                 setTimeout(function() {
                     document.getElementById("composetext").value = "";
@@ -68,4 +73,5 @@
     window.addEventListener("focus", focus, false);
     document.addEventListener("keydown", keydown, false);
     document.addEventListener("DOMNodeInserted", update, false);
+    document.getElementById("composebutton").addEventListener("click", click, false);
 })();
