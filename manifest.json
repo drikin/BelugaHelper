@@ -1,10 +1,14 @@
 {
   "name": "Beluga Helper",
-  "version": "0.4",
+  "version": "0.5.2",
   "description": "Tiny helper extension for Beluga",
   "icons": {
       "48": "Beluga48.png",
       "128": "Beluga128.png"
+  },
+  "browser_action": {
+    "default_icon": "Beluga48.png",
+    "default_title": "Beluga"
   },
   "background_page": "background.html",
   "content_scripts": [
@@ -15,6 +19,7 @@
   }
   ],
   "permissions": [
+    "tabs",
     "notifications",
     "http://belugapods.com/*"
   ],

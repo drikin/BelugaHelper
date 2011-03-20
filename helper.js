@@ -1,19 +1,11 @@
 (function() {
-	// reset document title
+	// Event handlers
     function focus() {
-        document.title = base_title;
-        unread_count = 0;
+        resetCount();
     }
 
-    function submit(event) {
+    function click() {
         last_update_id++;
-
-        var ct = document.getElementById("composetext");
-        if (ct.value.replace(/\n/g, "") !== "") {
-            var cf = document.getElementById("composeform");
-            cf.submit();
-            ct.value = "";
-        }
     }
 
     function keydown(event) {
@@ -21,7 +13,13 @@
             var withModifierKey = event.ctrlKey || event.metaKey || event.altKey || event.shiftKey;
             var useShiftEnterToPost = settings["useShiftEnterToPost"];
             if (useShiftEnterToPost && withModifierKey || !useShiftEnterToPost && !withModifierKey) {
-                submit(event);
+                var cb = document.getElementById("composebutton");
+                cb.click();
+                last_update_id++;
+                // workaround. make sure for clearing
+                setTimeout(function() {
+                    document.getElementById("composetext").value = "";
+                }, 0);
             }
         }
     }
@@ -42,6 +40,13 @@
             var status = lu.getElementsByClassName("ustatus")[0].textContent;
             showNotification({"image_url": img_url, "name": name, "status": status});
         }
+    }
+
+
+    // Common functions
+    function resetCount() {
+        document.title = base_title;
+        unread_count = 0;
     }
 
     function showNotification(msg) {
@@ -70,10 +75,10 @@
     var settings = {};
     loadSettings();
 
-    // attach events
+    // Attach events
     window.addEventListener("focus", focus, false);
     document.addEventListener("keydown", keydown, false);
     document.addEventListener("DOMNodeInserted", update, false);
-    document.getElementById("composebutton").addEventListener("click", submit, false);
+    document.getElementById("composebutton").addEventListener("click", click, false);
 })();
 // vim:set ts=4 sw=4 expandtab:
