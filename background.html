@@ -2,7 +2,20 @@
     <script>
         // Click from Browser Action Icon
         chrome.browserAction.onClicked.addListener(function(tab) {
-            window.open("http://belugapods.com/");
+            chrome.tabs.getAllInWindow(null, function(tabs) {
+                var isOpened = false;
+                for (var i = 0, n = tabs.length; i < n; i++) {
+                    var tab = tabs[i];
+                    if (tab.url === "http://belugapods.com/pods") {
+                        chrome.tabs.update(tab.id, {selected: true});
+                        isOpened = true;
+                        break;
+                    }
+                }
+                if (!isOpened) {
+                    chrome.tabs.create({url: "http://belugapods.com/pods", selected: true});
+                }
+            });
         });
 
         // Request from Content Script
