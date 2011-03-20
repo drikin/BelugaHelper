@@ -21,8 +21,7 @@
                 if(value === null && this.defaults.hasOwnProperty(key)) {
                     value = this.defaults[key];
                 }
-                // TODO unserialize value
-                return value;
+                return JSON.parse(value);
             },
             all: function() {
                 var settings = {};
@@ -34,8 +33,7 @@
                 return settings;
             },
             set: function(key, value) {
-                // TODO serialize value
-                this.storage.setItem(key, value);
+                this.storage.setItem(key, JSON.stringify(value));
                 this.notify(key, value);
             },
             remove: function(key) {
