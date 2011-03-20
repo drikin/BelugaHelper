@@ -1,37 +1,55 @@
 <html>
     <script>
-        var knownSettingsKeys = [
-            "useShiftEnterToPost"
-        ];
-        var requestProxy = {
-            notification: function(request, sender, sendResponse) {
-                var data = request["data"];
-                var notification = webkitNotifications.createNotification(
-                    data.image_url,
-                    data.name,
-                    data.status);
-                notification.ondisplay = function(event) {
-                    setTimeout(function(){
-                        event.target.cancel();
-                    }, 4000);
-                }
-                notification.show();
-                sendResponse();
-            },
-            settings: function(request, sender, sendResponse) {
+        function Settings(defaults) {
+            this.defaults = defaults;
+            this.storage = chrome.extension.getBackgroundPage().localStorage;
+
+            var self = this;
+            chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+                var action = request["action"] || request["method"];
                 var key = request["key"];
-                if(key) {
-                    sendResponse(localStorage.getItem(key));
-                } else {
-                    var settings = {};
-                    for(i in knownSettingsKeys) {
-                        var key = knownSettingsKeys[i];
-                        settings[key] = localStorage.getItem(key);
-                    }
-                    sendResponse(settings);
+                if(action === "getSettings") {
+                    sendResponse(self.all());
+                } else if(action === "getSetting" && key) {
+                    sendResponse(self.get(key));
                 }
+            });
+        }
+        Settings.prototype = {
+            get: function(key) {
+                var value = this.storage.getItem(key)
+                if(value === null && this.defaults.hasOwnProperty(key)) {
+                    value = this.defaults[key];
+                }
+                // TODO unserialize value
+                return value;
+            },
+            all: function() {
+                var settings = {};
+                for(var key in this.defaults) {
+                    if(this.defaults.hasOwnProperty(key)) {
+                        settings[key] = this.get(key);
+                    }
+                }
+                return settings;
+            },
+            set: function(key, value) {
+                // TODO serialize value
+                this.storage.setItem(key, value);
+                this.notify(key, value);
+            },
+            remove: function(key) {
+                this.storage.removeItem(key);
+            },
+            notify: function(key, value) {
+                chrome.extension.sendRequest({action: "updateSetting", key: key, value: value});
             }
         };
+
+        // Default Settings Object
+        window.settings = new Settings({
+            useShiftEnterToPost: false
+        });
 
         // Click from Browser Action Icon
         chrome.browserAction.onClicked.addListener(function(tab) {

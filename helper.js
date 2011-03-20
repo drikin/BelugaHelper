@@ -63,8 +63,8 @@
         return lu.id;
     }
 
-    function loadSettings() {
-        chrome.extension.sendRequest({action: "settings"}, function(value) {
+    function getSettings() {
+        chrome.extension.sendRequest({action: "getSettings"}, function(value) {
             settings = value;
         });
     }
@@ -73,7 +73,7 @@
     var last_update_id = getLastUpdateId();
     var unread_count = 0;
     var settings = {};
-    loadSettings();
+    getSettings();
 
     // Attach events
     window.addEventListener("focus", focus, false);

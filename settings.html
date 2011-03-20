@@ -60,22 +60,18 @@ li {
 <script type="text/javascript">// {{{
 (function() {
   var background = chrome.extension.getBackgroundPage();
-  var localStorage = background.localStorage;
+  var settings = background.settings;
 
+  // TODO non checkbox form item.
   window.init = function() {
     var items = document.getElementsByTagName("input");
     for(var i=0; i<items.length; i++) {
       var item = items[i];
       var key = item.getAttribute("id");
 
-      item.checked = !!localStorage.getItem(key);
+      item.checked = settings.get(key) == "true";
       item.addEventListener("click", function() {
-        var value = item.checked;
-        if(value) {
-          localStorage.setItem(key, 1);
-        } else {
-          localStorage.removeItem(key);
-        }
+        settings.set(key, item.checked);
       });
     }
   }
