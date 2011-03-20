@@ -72,9 +72,10 @@ li {
       var item = items[i];
       var key = item.getAttribute("id");
 
-      item.checked = !!settings.get(key);
-      item.addEventListener("click", function() {
-        settings.set(key, !!item.checked);
+      item.checked = settings.get(key);
+      item.addEventListener("click", function(event) {
+        var item = event.target;
+        settings.set(key, item.checked);
       });
     }
   }
