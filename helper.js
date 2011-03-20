@@ -16,15 +16,10 @@
         }
     }
 
-    // FIXME dirty.
-    var useShiftEnterToPost = false;
-    chrome.extension.sendRequest({action: "settings", key: "useShiftEnterToPost"}, function(value) {
-        useShiftEnterToPost = !!value;
-    });
-
     function keydown(event) {
         if (event.keyIdentifier === "Enter") {
             var withModifierKey = event.ctrlKey || event.metaKey || event.altKey || event.shiftKey;
+            var useShiftEnterToPost = settings["useShiftEnterToPost"];
             if (useShiftEnterToPost && withModifierKey || !useShiftEnterToPost && !withModifierKey) {
                 submit(event);
             }
@@ -63,9 +58,17 @@
         return lu.id;
     }
 
+    function loadSettings() {
+        chrome.extension.sendRequest({action: "settings"}, function(value) {
+            settings = value;
+        });
+    }
+
     var base_title = document.title;
     var last_update_id = getLastUpdateId();
     var unread_count = 0;
+    var settings = {};
+    loadSettings();
 
     // attach events
     window.addEventListener("focus", focus, false);
