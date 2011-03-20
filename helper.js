@@ -1,8 +1,7 @@
 (function() {
-	// reset document title
+	// Event handlers
     function focus() {
-        document.title = base_title;
-        unread_count = 0;
+        resetCount();
     }
 
     function submit(event) {
@@ -42,7 +41,16 @@
         }
     }
 
+
+
+    // Common functions
+    function resetCount() {
+        document.title = base_title;
+        unread_count = 0;
+    }
+
     function showNotification(msg) {
+        msg.type = "notification";
         chrome.extension.sendRequest(msg);
     }
 
@@ -56,12 +64,13 @@
         return lu.id;
     }
 
+
+
     var base_title = document.title;
     var last_update_id = getLastUpdateId();
     var unread_count = 0;
 
-    // attach events
-    window.addEventListener("focus", focus, false);
+    // Attach events
     document.addEventListener("keydown", keydown, false);
     document.addEventListener("DOMNodeInserted", update, false);
     document.getElementById("composebutton").addEventListener("click", submit, false);

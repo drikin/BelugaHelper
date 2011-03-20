@@ -1,16 +1,24 @@
 <html>
     <script>
-        chrome.extension.onRequest.addListener(function(data, sender, sendResponse) {
-            var notification = webkitNotifications.createNotification(
-            data.image_url,
-            data.name,
-            data.status);
-            notification.ondisplay = function(event) {
-                setTimeout(function(){
-                    event.target.cancel();
-                }, 4000);
+        // Click from Browser Action Icon
+        chrome.browserAction.onClicked.addListener(function(tab) {
+            window.open("http://belugapods.com/");
+        });
+
+        // Request from Content Script
+        chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+            if (request.type === "notification") {
+                var notification = webkitNotifications.createNotification(
+                request.image_url,
+                request.name,
+                request.status);
+                notification.ondisplay = function(event) {
+                    setTimeout(function(){
+                        event.target.cancel();
+                    }, 4000);
+                }
+                notification.show();
             }
-            notification.show();
 
             sendResponse();
         });
