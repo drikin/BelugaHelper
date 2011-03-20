@@ -4,21 +4,15 @@
         resetCount();
     }
 
-    function submit(event) {
-        last_update_id++;
-
-        var ct = document.getElementById("composetext");
-        if (ct.value.replace(/\n/g, "") !== "") {
-            var cf = document.getElementById("composeform");
-            cf.submit();
-            ct.value = "";
-        }
-    }
-
     function keydown(event) {
         if (event.keyIdentifier === "Enter") {
             if (!(event.ctrlKey || event.metaKey || event.altKey || event.shiftKey)) {
-                submit(event);
+                var cb = document.getElementById("composebutton");
+                cb.click();
+                // workaround. make sure for clearing
+                setTimeout(function() {
+                    document.getElementById("composetext").value = "";
+                }, 0);
             }
         }
     }
@@ -74,5 +68,4 @@
     window.addEventListener("focus", focus, false);
     document.addEventListener("keydown", keydown, false);
     document.addEventListener("DOMNodeInserted", update, false);
-    document.getElementById("composebutton").addEventListener("click", submit, false);
 })();

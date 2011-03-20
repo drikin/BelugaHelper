@@ -1,6 +1,6 @@
 {
   "name": "Beluga Helper",
-  "version": "0.5",
+  "version": "0.5.1",
   "description": "Tiny helper extension for Beluga",
   "icons": {
       "48": "Beluga48.png",
