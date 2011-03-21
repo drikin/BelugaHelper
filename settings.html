@@ -74,6 +74,7 @@ li {
 
       item.checked = settings.get(key);
       item.addEventListener("click", function(event) {
+        var key = event.target.id;
         var item = event.target;
         settings.set(key, item.checked);
       });
