@@ -67,6 +67,7 @@ li {
 
   // TODO non checkbox form item.
   window.init = function() {
+    // Setup for input
     var items = document.getElementsByTagName("input");
     for(var i=0; i<items.length; i++) {
       var item = items[i];
@@ -79,6 +80,15 @@ li {
         settings.set(key, item.checked);
       });
     }
+    // Setup for select
+    var key = "durationDesktopNotification";
+    var select = document.getElementById(key);
+    select.value = settings.get(key);
+    select.addEventListener("change", function(event) {
+        var key = event.target.id;
+        var value = event.target.value;
+        settings.set(key, value);
+    });
   }
 })();
 // }}}</script>
@@ -97,6 +107,16 @@ li {
     <li>
       <input type="checkbox" id="disableDesktopNotification" />
       <label for="disableDesktopNotification">Disable desktop notification</label><br />
+    </li>
+    <li>
+      Duration for desktop notification:&nbsp;
+      <select id="durationDesktopNotification">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+      </select>&nbsp;sec
     </li>
   </ul>
 </div>

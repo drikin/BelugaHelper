@@ -58,7 +58,8 @@
         // Default Settings Object
         window.settings = new Settings({
             useShiftEnterToPost: false,
-            disableDesktopNotification: false
+            disableDesktopNotification: false,
+            durationDesktopNotification: 4
         });
 
         // Click from Browser Action Icon
@@ -88,10 +89,11 @@
                         request.image_url,
                         request.name,
                         request.status);
+                    var duration = 1000 * settings.get("durationDesktopNotification");
                     notification.ondisplay = function(event) {
                         setTimeout(function(){
                             event.target.cancel();
-                        }, 4000);
+                        }, duration);
                     }
                     notification.show();
                 }
