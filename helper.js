@@ -16,7 +16,7 @@
 
     initSettings();
 
-	// Event handlers
+    // Event handlers
     function focus() {
         resetCount();
     }
@@ -30,10 +30,10 @@
             var withModifierKey = event.ctrlKey || event.metaKey || event.altKey || event.shiftKey;
             var useShiftEnterToPost = settings["useShiftEnterToPost"];
             if (useShiftEnterToPost && withModifierKey || !useShiftEnterToPost && !withModifierKey) {
-                var cb = document.getElementById("composebutton");
-                cb.click();
+                var cf = document.getElementById("composeform");
+                cf.submit();
                 last_update_id++;
-                // workaround. make sure for clearing
+                // make sure for clearing
                 setTimeout(function() {
                     document.getElementById("composetext").value = "";
                 }, 0);
