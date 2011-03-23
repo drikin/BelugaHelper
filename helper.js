@@ -52,13 +52,18 @@
 
             // show notification
             var lu = getLastUpdateElement();
-            var img_url = lu.getElementsByClassName("userimg")[0].src;
-            var name = lu.getElementsByClassName("uname")[0].textContent;
-            var status = lu.getElementsByClassName("ustatus")[0].textContent;
+            if (is_mobile()) {
+                var img_url = lu.getElementsByClassName("user-tile upic")[0].childNodes[1].src;
+                var name = lu.getElementsByClassName("text")[0].childNodes[2].textContent;
+                var status = lu.getElementsByClassName("utext")[0].textContent;
+            } else {
+                var img_url = lu.getElementsByClassName("userimg")[0].src;
+                var name = lu.getElementsByClassName("uname")[0].textContent;
+                var status = lu.getElementsByClassName("ustatus")[0].textContent;
+            }
             showNotification({"image_url": img_url, "name": name, "status": status});
         }
     }
-
 
     // Common functions
     function resetCount() {
@@ -73,7 +78,11 @@
 
     function getLastUpdateElement() {
         var ru = document.getElementById("realupdates");
-        return ru.getElementsByClassName("update")[0];
+        if (is_mobile()) {
+            return ru.getElementsByClassName("update-item")[0];
+        } else {
+            return ru.getElementsByClassName("update")[0];
+        }
     }
 
     function getLastUpdateId() {
@@ -84,6 +93,11 @@
     var base_title = document.title;
     var last_update_id = getLastUpdateId();
     var unread_count = 0;
+
+    function is_mobile() {
+        var fl = document.getElementById("footer-links");
+        return (fl==null) ? false : true;
+    }
 
     // Attach events
     window.addEventListener("focus", focus, false);
