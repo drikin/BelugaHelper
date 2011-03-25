@@ -90,14 +90,16 @@
         return lu.id;
     }
 
-    var base_title = document.title;
-    var last_update_id = getLastUpdateId();
-    var unread_count = 0;
-
     function is_mobile() {
         var fl = document.getElementById("footer-links");
         return (fl==null) ? false : true;
     }
+
+
+    var base_title = document.title;
+    var last_update_id = getLastUpdateId();
+    var unread_count = 0;
+
 
     // Attach events
     window.addEventListener("focus", focus, false);
