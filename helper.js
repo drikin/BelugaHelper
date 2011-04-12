@@ -62,6 +62,7 @@
                 var status = lu.getElementsByClassName("ustatus")[0].textContent;
             }
             showNotification({"image_url": img_url, "name": name, "status": status});
+            openUrlFromText(status);
         }
     }
 
@@ -74,6 +75,18 @@
     function showNotification(msg) {
         msg.type = "notification";
         chrome.extension.sendRequest(msg);
+    }
+
+    function openUrlFromText(text) {
+        var enableAutoOpenUrl = settings["enableAutoOpenUrl"];
+        if (enableAutoOpenUrl) {
+            var urls = text.match(/https?:\/\/\S+/g);
+            if (urls) {
+                for (var i = 0, n = urls.length; i < n; i++) {
+                    chrome.extension.sendRequest({type:"openurl", url:urls[i]});
+                }
+            }
+        }
     }
 
     function getLastUpdateElement() {

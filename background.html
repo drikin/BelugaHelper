@@ -58,6 +58,7 @@
         // Default Settings Object
         window.settings = new Settings({
             useShiftEnterToPost: false,
+            enableAutoOpenUrl: false,
             disableDesktopNotification: false,
             durationDesktopNotification: 4
         });
@@ -97,6 +98,10 @@
                     }
                     notification.show();
                 }
+                sendResponse();
+            }
+            if (request.type === "openurl") {
+                chrome.tabs.create({url:request.url, selected:false});
                 sendResponse();
             }
         });
